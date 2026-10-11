@@ -74,4 +74,4 @@ AI was used to write all of the code in this project. The original concept, desi
 
 [Report an issue](https://github.com/Skeptic043/MonBazouBetterRadio/issues) with the mod version, relevant settings and the relevant portion of `BepInEx/LogOutput.log`. Redact personal paths and other private information before posting.
 
-[Download Better Radio](https://github.com/Skeptic043/MonBazouBetterRadio/releases/latest) · [Source code](https://github.com/Skeptic043/MonBazouBetterRadio) · [Changelog](CHANGELOG.md) · [Build instructions](docs/BUILDING.md) · [MIT License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md)
+[Download Better Radio](https://github.com/Skeptic043/MonBazouBetterRadio/releases/latest) · [Source code](https://github.com/Skeptic043/MonBazouBetterRadio) · [Changelog](CHANGELOG.md) · [Build instructions](docs/BUILDING.md) · [MIT License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md) · [Support on Ko-fi](https://ko-fi.com/skeptic043) · skeptic043
