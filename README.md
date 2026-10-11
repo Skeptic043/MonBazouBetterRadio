@@ -5,7 +5,7 @@ Better Radio improves Mon Bazou's built-in custom music player. It shows song fi
 ## Installation
 
 1. Install the appropriate [BepInEx 5](https://github.com/BepInEx/BepInEx/releases) build for your PC.
-2. Download Better Radio from Nexus Mods.
+2. Download the latest Better Radio ZIP from [GitHub Releases](https://github.com/Skeptic043/MonBazouBetterRadio/releases/latest).
 3. Close the game and extract the ZIP into the Mon Bazou game folder.
 4. Start the game normally. The configuration file is created on first launch.
 
@@ -74,4 +74,4 @@ AI was used to write all of the code in this project. The original concept, desi
 
 [Report an issue](https://github.com/Skeptic043/MonBazouBetterRadio/issues) with the mod version, relevant settings and the relevant portion of `BepInEx/LogOutput.log`. Redact personal paths and other private information before posting.
 
-[Source code](https://github.com/Skeptic043/MonBazouBetterRadio) · [Changelog](CHANGELOG.md) · [Build instructions](docs/BUILDING.md) · [MIT License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md)
+[Download Better Radio](https://github.com/Skeptic043/MonBazouBetterRadio/releases/latest) · [Source code](https://github.com/Skeptic043/MonBazouBetterRadio) · [Changelog](CHANGELOG.md) · [Build instructions](docs/BUILDING.md) · [MIT License](LICENSE) · [Third-party notices](THIRD_PARTY_NOTICES.md)

@@ -38,4 +38,4 @@ Run `./Package.ps1` after building. It creates the candidate archive in `artifac
 
 The player ZIP contains the compiled plugin, NLayer, player documentation and the required license notices. It excludes source tests, game assemblies, configurations, music and generated test output. Distribute the complete plugin folder so the dependency and notices remain beside the DLL.
 
-Download distribution is through Nexus Mods. GitHub hosts source and documentation.
+Player downloads are distributed through GitHub Releases and Nexus Mods. The repository also hosts source and documentation.
