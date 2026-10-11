@@ -1,0 +1,30 @@
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
+    <OutputType>Library</OutputType>
+    <AssemblyName>RadioEnhancements</AssemblyName>
+    <RootNamespace>RadioEnhancements</RootNamespace>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <Optimize>true</Optimize>
+    <GameManagedPath Condition="'$(GameManagedPath)' == ''">C:\Steam Games\steamapps\common\MonBazou\Mon Bazou_Data\Managed</GameManagedPath>
+    <BepInExPath Condition="'$(BepInExPath)' == ''">$(USERPROFILE)\.nuget\packages\bepinex.baselib\5.4.20\lib\net35\BepInEx.dll</BepInExPath>
+    <HarmonyPath Condition="'$(HarmonyPath)' == ''">$(USERPROFILE)\.nuget\packages\harmonyx\2.7.0\lib\net45\0Harmony.dll</HarmonyPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="BepInEx"><HintPath>$(BepInExPath)</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(HarmonyPath)</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameManagedPath)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameManagedPath)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.AudioModule"><HintPath>$(GameManagedPath)\UnityEngine.AudioModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameManagedPath)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(GameManagedPath)\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(GameManagedPath)\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="netstandard"><HintPath>$(GameManagedPath)\netstandard.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="NLayer"><HintPath>$(USERPROFILE)\.nuget\packages\nlayer\1.16.0\lib\netstandard2.0\NLayer.dll</HintPath><Private>true</Private></Reference>
+    <Compile Include="src\**\*.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

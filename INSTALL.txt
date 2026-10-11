@@ -1,0 +1,45 @@
+Better Radio for Mon Bazou
+
+Installation
+1. Install BepInEx 5 for Windows x64 in the Mon Bazou game folder.
+2. Close the game.
+3. Extract this ZIP into the game folder and merge the included BepInEx folder.
+4. Keep RadioEnhancements.dll, NLayer.dll and the notices together.
+5. Start the game normally and switch a radio to CD mode.
+
+Updating
+Replace the files in BepInEx/plugins/RadioEnhancements. Do not install a second
+copy in another plugin folder. The old folder and DLL names are intentional.
+Your existing configuration remains in use.
+
+Music folders
+The normal CDPlayer folder is always included, together with its subfolders:
+%USERPROFILE%\AppData\LocalLow\Santa Goat\Mon Bazou\CDPlayer
+
+To add an external folder, close the game and edit:
+BepInEx/config/com.skeptic043.monbazou.radioenhancements.cfg
+
+In the [Music] section, set MusicFolders to an absolute folder path:
+MusicFolders = D:\Music
+
+Leave it blank to use only CDPlayer. Separate multiple extra folders with |.
+Use paths without quotation marks. The pause menu's LOAD button rescans music.
+
+Controls
+Use the normal radio controls. In CD mode, preset 6 toggles shuffle and remembers
+the choice across saves and game restarts. Active CD radios share playback and
+seeking. Power, volume and FM remain individual.
+
+Formats
+MP3, Ogg Vorbis and PCM WAV are supported. AAC, M4A and MP4 audio require an
+available Windows Media Foundation decoder and are disabled under Wine/Proton.
+Only audio is played from MP4 files. Copy-protected files are unsupported.
+
+Source and instructions
+https://github.com/Skeptic043/MonBazouBetterRadio
+
+AI Use
+AI was used to write all of the code in this project. The original concept,
+design direction, testing, debugging, and release decisions are my own. If you
+prefer not to use mods developed with AI assistance, I understand and respect
+that choice.

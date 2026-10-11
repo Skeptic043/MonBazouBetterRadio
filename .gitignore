@@ -1,0 +1,34 @@
+# Private workflow and research records
+AGENTS.md
+**/AGENTS.md
+.agents/
+.codex/
+.local/
+FINDINGS.md
+PLANNING.md
+BACKLOG.md
+HANDOFF.md
+SESSION*.md
+
+# Local references, decompilation, output and game data
+references/
+decompiled/
+artifacts/
+dist/
+packages/
+bin/
+obj/
+*.dll
+*.pdb
+*.zip
+*.log
+*.sav
+*.cfg
+
+# Editor and machine settings
+.vs/
+.idea/
+*.user
+*.suo
+.env
+.env.*
