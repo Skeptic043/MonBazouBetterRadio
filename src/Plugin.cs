@@ -246,6 +246,7 @@ namespace RadioEnhancements
                 {
                     plugin.tracker.Reset(__instance);
                     plugin.hooks.InvalidateDisplays(__instance, plugin.Warn);
+                    if (plugin.shuffle != null) plugin.shuffle.ResetLibrary();
                     plugin.cdSync.BeginCustomScan(__instance, plugin.MusicRoots());
                 }
                 catch (Exception error) { plugin.Warn(error); }
@@ -378,7 +379,13 @@ namespace RadioEnhancements
         private static void AfterHover(object __instance, ref string __result, bool __runOriginal)
         {
             Plugin plugin = active; if (plugin == null || plugin.shuffle == null || !__runOriginal) return;
-            try { __result = plugin.shuffle.HoverText(__instance, __result); if (plugin.cdSync != null) __result = plugin.cdSync.HoverText(__instance, __result); } catch (Exception error) { plugin.Warn(error); }
+            try
+            {
+                string managed;
+                if (plugin.cdSync != null && plugin.cdSync.TryHoverText(__instance, out managed)) { __result = managed; return; }
+                __result = plugin.shuffle.HoverText(__instance, __result);
+            }
+            catch (Exception error) { plugin.Warn(error); }
         }
         private static bool BeforeNext(object __instance, object __0, bool __runOriginal) { return Seek(__instance, __0, false, __runOriginal); }
         private static bool BeforePrevious(object __instance, object __0, bool __runOriginal) { return Seek(__instance, __0, true, __runOriginal); }
@@ -438,8 +445,16 @@ namespace RadioEnhancements
         }
         private string[] MusicRoots()
         {
-            List<string> roots = new List<string> { Application.persistentDataPath + "/CDPlayer" };
-            roots.AddRange(musicFolders.Value.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries));
+            return MusicRoots(Application.persistentDataPath + "/CDPlayer", musicFolders.Value);
+        }
+        internal static string[] MusicRoots(string nativeRoot, string configured)
+        {
+            List<string> roots = new List<string> { nativeRoot };
+            foreach (string value in (configured ?? "").Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries))
+            {
+                string trimmed = value.Trim();
+                if (trimmed.Length != 0) roots.Add(trimmed);
+            }
             return roots.ToArray();
         }
         private void Warn(Exception error)

@@ -372,14 +372,17 @@ namespace RadioEnhancements
             if (session.Custom != null) { session.Custom.Transport.Toggle(); enabled = session.Custom.Transport.Shuffle; return true; }
             session.Transport.Toggle(); enabled = session.Transport.Shuffle; return true;
         }
-        internal string HoverText(object button, string original)
+        internal bool TryHoverText(object button, out string text)
         {
-            if (!IsActive || (int)presetIndex.GetValue(button) != 6) return original;
+            text = null;
+            if (!IsActive || (int)presetIndex.GetValue(button) != 6) return false;
             object radio = presetRadio.GetValue(button);
-            if (!GameHooks.Alive(radio)) return original;
+            if (!GameHooks.Alive(radio)) return false;
             object sound = furnitureSound.GetValue(radio);
-            Session session = Cd(sound) ? ForSound(sound) : null;
-            return session == null ? original : " 6 - Shuffle " + ((session.Custom != null ? session.Custom.Transport.Shuffle : session.Transport.Shuffle) ? "ON" : "OFF");
+            if (!Cd(sound)) return false;
+            bool enabled = PreferredShuffle != null && PreferredShuffle();
+            text = " 6 - Shuffle " + (enabled ? "ON" : "OFF");
+            return true;
         }
         internal void UpdateAll()
         {

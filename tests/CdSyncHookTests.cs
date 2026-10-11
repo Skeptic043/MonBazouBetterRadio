@@ -41,6 +41,7 @@ internal static class CdSyncHookTests
         Check(both.Count(IsRandom) == 7 && both.Count == original.Count + 1, "Composes after existing narrow shuffle rewrite");
         both = ((IEnumerable<CodeInstruction>)shuffleRewrite.Invoke(shuffleValidator, new object[] { patched })).ToList();
         Check(both.Count(IsRandom) == 7 && both.Count == original.Count + 1, "Composes before existing narrow shuffle rewrite");
+        CheckHoverOwnership(plugin, type, shuffle);
         if (smoke)
         {
             Harmony harmony = new Harmony("radioenhancements.standalone.cdsynctests");
@@ -49,6 +50,33 @@ internal static class CdSyncHookTests
             Check(true, "Standalone actual Harmony code generation");
         }
         Console.WriteLine("PASS: " + checks + " shared CD installed-assembly checks, exact Tick gate and native pause surfaces. No game method invoked.");
+    }
+    private static void CheckHoverOwnership(Assembly plugin, Type sync, Type shuffle)
+    {
+        MethodInfo owned = sync.GetMethod("TryHoverText", BindingFlags.Instance | BindingFlags.NonPublic);
+        ParameterInfo[] parameters = owned.GetParameters();
+        Check(owned.ReturnType == typeof(bool) && parameters.Length == 2 && parameters[1].ParameterType == typeof(string).MakeByRefType(), "Managed hover exposes explicit ownership/result contract");
+        List<CodeInstruction> ownedCode = PatchProcessor.GetOriginalInstructions(owned);
+        Check(!ownedCode.Any(delegate(CodeInstruction instruction)
+        {
+            MethodInfo called = instruction.operand as MethodInfo;
+            if (called == null) return false;
+            Type declaring = called.DeclaringType;
+            bool weakTable = declaring != null && declaring.IsGenericType && declaring.GetGenericTypeDefinition() == typeof(System.Runtime.CompilerServices.ConditionalWeakTable<,>);
+            return weakTable || (declaring == sync && (called.Name == "ForSound" || called.Name == "Get"));
+        }), "Managed hover does not enter session lookup or state creation");
+        MethodInfo fallback = shuffle.GetMethod("HoverText", BindingFlags.Instance | BindingFlags.NonPublic);
+        List<CodeInstruction> fallbackCode = PatchProcessor.GetOriginalInstructions(fallback);
+        Check(!fallbackCode.Any(delegate(CodeInstruction instruction)
+        {
+            MethodInfo called = instruction.operand as MethodInfo;
+            return called != null && (called.Name == "State" || called.Name == "GetOrAdd" || called.Name == "Reset");
+        }), "Fallback hover does not create or reset shuffle state");
+        MethodInfo afterHover = plugin.GetType("RadioEnhancements.Plugin", true).GetMethod("AfterHover", BindingFlags.Static | BindingFlags.NonPublic);
+        List<CodeInstruction> bridge = PatchProcessor.GetOriginalInstructions(afterHover);
+        int ownedCall = bridge.FindIndex(delegate(CodeInstruction instruction) { return instruction.Calls(owned); });
+        int fallbackCall = bridge.FindIndex(delegate(CodeInstruction instruction) { return instruction.Calls(fallback); });
+        Check(ownedCall >= 0 && fallbackCall > ownedCall, "Managed hover resolves before fallback hover");
     }
     private static bool IsRandom(CodeInstruction instruction) { MethodInfo method = instruction.operand as MethodInfo; return method != null && method.Name == "GetNewRandomSong"; }
     private static List<CodeInstruction> Clone(IEnumerable<CodeInstruction> source) { return source.Select(delegate(CodeInstruction instruction) { return new CodeInstruction(instruction); }).ToList(); }

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
 using HarmonyLib;
 using UnityEngine;
 
@@ -17,9 +16,8 @@ namespace RadioEnhancements
         private readonly PropertyInfo index, time, mode;
         private readonly FieldInfo library, radio, furnitureMode, presetIndex, presetRadio;
         private readonly PropertyInfo power;
-        private int generation;
         internal Func<bool> PreferredShuffle;
-        private readonly ConditionalWeakTable<object, ShuffleSequence> sequences = new ConditionalWeakTable<object, ShuffleSequence>();
+        private readonly WeakIdentityStateStore<ShuffleSequence> sequences = new WeakIdentityStateStore<ShuffleSequence>();
         internal ShuffleHooks()
         {
             Type manager = GameHooks.RequiredType("SOUND_Manager"), sound = GameHooks.RequiredType("SOUND_Radio"), furniture = GameHooks.RequiredType("Furniture_Radio");
@@ -45,12 +43,12 @@ namespace RadioEnhancements
         }
         private ShuffleSequence State(object sound)
         {
-            ShuffleSequence state = sequences.GetValue(sound, delegate { return new ShuffleSequence(Guid.NewGuid().GetHashCode()); });
+            ShuffleSequence state = sequences.GetOrAdd(sound, delegate { return new ShuffleSequence(Guid.NewGuid().GetHashCode()); });
             bool preferred = PreferredShuffle == null ? state.Enabled : PreferredShuffle();
-            if (state.Generation != generation || state.Enabled != preferred) { state.Reset(); state.Generation = generation; state.Enabled = preferred; }
+            if (state.Enabled != preferred) { state.Reset(); state.Enabled = preferred; }
             return state;
         }
-        internal void ResetLibrary() { generation++; }
+        internal void ResetLibrary() { sequences.Clear(); }
         internal bool Toggle(object furniture, int preset, out bool enabled)
         {
             enabled = false;
@@ -66,7 +64,10 @@ namespace RadioEnhancements
             object furniture = presetRadio.GetValue(button);
             if ((int)presetIndex.GetValue(button) != 6 || !CdOn(furniture)) return original;
             object sound = radio.GetValue(furniture);
-            return GameHooks.Alive(sound) && (float)mode.GetValue(sound, null) == 1f ? " 6 - Shuffle " + (State(sound).Enabled ? "ON" : "OFF") : original;
+            if (!GameHooks.Alive(sound) || (float)mode.GetValue(sound, null) != 1f) return original;
+            ShuffleSequence state;
+            bool enabled = PreferredShuffle != null ? PreferredShuffle() : sequences.TryGetValue(sound, out state) && state.Enabled;
+            return " 6 - Shuffle " + (enabled ? "ON" : "OFF");
         }
         internal int AutoNext(object manager, int current, int size, object sound) { return State(sound).Next(current, size); }
         internal static int NativeRandom(object manager, int current, int size) { return (int)nativeRandom.Invoke(manager, new object[] { current, size }); }
