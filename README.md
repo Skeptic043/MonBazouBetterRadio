@@ -66,6 +66,10 @@ Requires BepInEx 5. Better Radio was tested on Windows. AAC, M4A and MP4 audio r
 
 Mods that replace the built-in custom music loader, radio seeking or preset behavior may conflict with Better Radio.
 
+## Credits
+
+Better Radio includes [NLayer 1.16.0](https://www.nuget.org/packages/NLayer/1.16.0) by Mark Heath, Andrew Ward and contributors under the MIT License. Selected audio loading code was adapted from [Sailwind Radio](https://github.com/Skeptic043/Sailwind-Radio) under the MIT License. Complete notices are included in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the release download.
+
 ## AI Use
 
 AI was used to write all of the code in this project. The original concept, design direction, testing, debugging, and release decisions are my own. If you prefer not to use mods developed with AI assistance, I understand and respect that choice.

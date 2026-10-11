@@ -39,6 +39,12 @@ Only audio is played from MP4 files. Copy-protected files are unsupported.
 Source and instructions
 https://github.com/Skeptic043/MonBazouBetterRadio
 
+Credits
+Better Radio includes NLayer 1.16.0 by Mark Heath, Andrew Ward and contributors
+under the MIT License. Selected audio loading code was adapted from Sailwind
+Radio under the MIT License. Complete notices are included in
+THIRD_PARTY_NOTICES.md and the licenses folder.
+
 AI Use
 AI was used to write all of the code in this project. The original concept,
 design direction, testing, debugging, and release decisions are my own. If you
