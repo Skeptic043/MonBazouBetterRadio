@@ -1,7 +1,8 @@
 Better Radio for Mon Bazou
 
 Installation
-1. Install BepInEx 5 for Windows x64 in the Mon Bazou game folder.
+1. Install the appropriate BepInEx 5 build for your PC in the Mon Bazou game folder:
+   https://github.com/BepInEx/BepInEx/releases
 2. Close the game.
 3. Extract this ZIP into the game folder and merge the included BepInEx folder.
 4. Keep RadioEnhancements.dll, NLayer.dll and the notices together.

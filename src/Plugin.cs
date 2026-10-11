@@ -50,7 +50,7 @@ namespace RadioEnhancements
                 musicFolders = Config.Bind("Music", "MusicFolders", "", "Optional external music folder, for example D:\\Music. Separate multiple folders with |. The native CDPlayer folder is always included. All folders are scanned recursively with UseCustomLoader enabled. Supports MP3, OGG, PCM WAV, and AAC/M4A/MP4 audio on supported Windows systems. Leave blank for native-folder-only playback.");
                 shufflePreference = new ShufflePreference(Config);
                 reuseLibrary = Config.Bind("Loading", "ReuseUnchangedLibrary", true, "Reuse a completely loaded library when its files and loaded clip identities are unchanged.");
-                logTimings = Config.Bind("Loading", "LogTimings", true, "Log aggregate LOAD timings and cache results without music filenames.");
+                logTimings = Config.Bind("Loading", "LogTimings", false, "Log aggregate LOAD timings and cache results without music filenames.");
                 preloadOnGameLoad = Config.Bind("Loading", "PreloadOnGameLoad", true, "Load custom music during the game's save/new-game loading screen before handing over control.");
                 concurrentLoads = Config.Bind("Loading", "ConcurrentLoads", 1, new ConfigDescription("Maximum active native audio requests. 1 spreads request starts over frames; 0 restores native launch timing for comparison.", new AcceptableValueRange<int>(0, 16)));
                 loading = new LoadingCoordinator(delegate(string message) { if (logTimings.Value) Logger.LogInfo(message); }, delegate(object value) { AudioClip clip = value as AudioClip; return clip != null && clip.length > 0; }, delegate { return Time.frameCount; });

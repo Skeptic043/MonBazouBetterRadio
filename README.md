@@ -1,30 +1,28 @@
 # Better Radio
 
-Better Radio improves Mon Bazou's custom music with scrolling song names, shared playback between radios, remembered shuffle and background music loading.
+Better Radio improves Mon Bazou's built-in custom music player. It shows song filenames, keeps active radios in sync, remembers shuffle, reads external music folders and prepares large libraries without loading every song up front.
 
 ## Installation
 
-1. Install [BepInEx 5 for Windows x64](https://github.com/BepInEx/BepInEx/releases/latest). This mod uses BepInEx 5, not BepInEx 6.
-2. Download the Better Radio ZIP from its Nexus Mods page.
-3. Close the game and extract the ZIP into the Mon Bazou game folder, merging the included `BepInEx` folder.
+1. Install the appropriate [BepInEx 5](https://github.com/BepInEx/BepInEx/releases) build for your PC.
+2. Download Better Radio from Nexus Mods.
+3. Close the game and extract the ZIP into the Mon Bazou game folder.
 4. Start the game normally. The configuration file is created on first launch.
 
-Keep the included `NLayer.dll` and license notices with the plugin. The installation folder and DLL retain the name `RadioEnhancements` so existing installations can be updated in place. Replace that folder's files when updating rather than installing a second copy elsewhere.
+Keep the included `NLayer.dll` with the plugin.
 
 ## Features
 
-- Displays the playing song's filename without its extension. Long names scroll across the radio display.
+- Shows the playing song's filename. Long names scroll across the radio display.
 - Keeps active CD radios on the same song and playback position. Next, previous and shuffle are shared, while power, volume and FM remain individual.
 - Adds shuffle to preset 6 in CD mode and remembers the setting across save changes and game restarts.
-- Reads nested folders inside the game's `CDPlayer` folder and optional external music folders.
-- Prepares songs in the background instead of loading the entire library's audio before playback.
-- Plays MP3, Ogg Vorbis and PCM WAV, with AAC, M4A and MP4 audio through Windows Media Foundation when available.
+- Reads subfolders inside the game's `CDPlayer` folder and optional external music folders.
+- Prepares the current and next song in the background instead of loading the entire library's audio before playback.
+- Plays MP3, Ogg Vorbis and PCM WAV. AAC, M4A and MP4 audio use Windows Media Foundation when available.
 
 ## Controls
 
-Use the normal radio power, source, volume and seek controls. In CD mode, preset **6** toggles shuffle. With shuffle off, songs play sequentially. With shuffle on, songs are selected without repeats within a cycle.
-
-Previous restarts the current song after its first two seconds. Before that, it goes to the preceding song or back through shuffle history. Changing shuffle does not immediately skip the current song. FM presets and temporary volume displays retain their normal behavior.
+Use the normal radio power, source, volume and seek controls. In CD mode, preset `6` toggles shuffle.
 
 ## Music folders and configuration
 
@@ -47,26 +45,26 @@ For example:
 MusicFolders = D:\Music
 ```
 
-Leave `MusicFolders` blank to use only `CDPlayer`. Both locations include subfolders. Multiple additional folders can be separated with `|`, for example `D:\Music|E:\More Music`. Use absolute paths without quotation marks. Music is read directly from those locations.
+Leave `MusicFolders` blank to use only `CDPlayer`. Both locations include subfolders. Multiple additional folders can be separated with `|`, for example `D:\Music|E:\More Music`. Use absolute paths without quotation marks. Edit `MusicFolders` while the game is closed. Changes made to the file while Mon Bazou is running are not reloaded and may be overwritten.
 
 | Setting | Default | Behavior |
 | --- | --- | --- |
 | `Music.MusicFolders` | Blank | Additional folders to read alongside `CDPlayer`. |
 | `Music.Shuffle` | `false` | Remembered shuffle preference. Preset 6 updates this setting. |
 | `Music.UseCustomLoader` | `true` | Enables recursive folders and background playback. Set to `false` and restart to use the original loader. |
-| `Loading.LogTimings` | `true` | Writes loading diagnostics to the BepInEx log. |
+| `Loading.LogTimings` | `false` | Enables aggregate loading diagnostics in the BepInEx log. |
 
-The remaining `Loading` options apply to the original-loader fallback: `ConcurrentLoads` defaults to `1` and accepts `0` through `16`, `ReuseUnchangedLibrary` defaults to `true`, and `PreloadOnGameLoad` defaults to `true`. The normal custom loader indexes music automatically when loading a game. The pause menu's **LOAD** button rescans the music folders.
+## Updating and removing
 
-Shuffle is a global preference shared across saves. The mod does not save a song position or shuffle history across game sessions.
+To update Better Radio, close the game and replace the files in `BepInEx\plugins\RadioEnhancements`.
+
+Better Radio does not add data to Mon Bazou save files. To remove it, close the game and delete `BepInEx\plugins\RadioEnhancements`.
 
 ## Compatibility and limitations
 
-Requires the Windows version of Mon Bazou and BepInEx 5. AAC-family formats require Windows Media Foundation and an available decoder. They are disabled under Wine and Proton. MP4 playback uses audio only. If a file has multiple audio tracks, Windows selects one automatically. Copy-protected files are unsupported. An OGG file must contain Vorbis audio, and a WAV file must use a supported PCM encoding.
+Requires BepInEx 5. Better Radio was tested on Windows. AAC, M4A and MP4 audio require Windows Media Foundation and an available decoder, so those formats are disabled under Wine and Proton. MP4 playback uses audio only. If a file has multiple audio tracks, Windows selects one automatically. Copy-protected files are unsupported. An OGG file must contain Vorbis audio, and a WAV file must use a supported PCM encoding.
 
-The original-loader fallback uses the game's original folder and format handling, so external folders and the additional formats require `UseCustomLoader = true`.
-
-Song titles come from filenames. Embedded title tags are not read.
+Mods that replace the built-in custom music loader, radio seeking or preset behavior may conflict with Better Radio.
 
 ## AI Use
 
