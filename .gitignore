@@ -3,6 +3,7 @@ AGENTS.md
 **/AGENTS.md
 .agents/
 .codex/
+.claude/
 .local/
 FINDINGS.md
 PLANNING.md
